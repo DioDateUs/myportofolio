@@ -4,6 +4,10 @@ NPM : 2506590920
 
 Kelas : PBP F
 
+## Deskripsi Proyek
+
+Website ini adalah portofolio pribadi interaktif yang dirancang untuk menampilkan profil, latar belakang akademik, untuk sekarang, isinya hanya pengalaman organisasi, namun akan bertambah seiring waktu. Proyek ini ditujukan untuk tugas individu mata kuliah Pemrograman Berbasis Platform Semester Gasal 2026/2027.
+
 ## Setup
 
 Sebelum memulai, pastikan Python 3.13 (atau versi lain yang kompatibel dengan `requirements.txt`) sudah terpasang.
@@ -39,7 +43,7 @@ python manage.py migrate
 
 ### 5. Jalankan server
 
-```bash
+```bas
 python manage.py runserver
 ```
 
