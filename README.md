@@ -49,6 +49,11 @@ python manage.py runserver
 
 Setelah itu, buka browser dan akses `http://127.0.0.1:8000`.
 
+## Progres Mingguan
+
+1. Week 1: Setup Django dan template awal portofolio
+2. Week 2: Penambahan section baru (pengalaman)
+
 ### Tugas 1
 
 1. Ya, karena daripada menggunakan elemen &lt;div> di semua tempat, elemen semantik bisa memisahkan fungsi blok kode nya seperti &lt;section id="pengalaman"> yang langsung menjelaskan bahwa itu adalah untuk section pengalaman sehingga dapat lebih mudah di akses jika ada yang ingin diubah di bagian pengalaman
