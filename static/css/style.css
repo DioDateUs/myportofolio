@@ -199,14 +199,54 @@ h1, h2, h3, .brand {
     gap: 2rem;
 }
 
-.experience-item {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 2rem;
+details.experience-item {
     padding: 2rem;
     background-color: #fff;
     border: 1px solid var(--line);
     border-radius: var(--radius);
+    transition: all 0.3s ease;
+}
+
+details.experience-item > summary {
+    list-style: none;
+    cursor: pointer;
+    outline: none;
+}
+details.experience-item > summary::-webkit-details-marker {
+    display: none;
+}
+
+details.experience-item:not([open]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+details.experience-item:not([open]) > summary.experience-meta {
+    align-items: center;
+    width: 100%;
+}
+
+details.experience-item:not([open]) .experience-org {
+    display: none;
+}
+
+details.experience-item:not([open]) .experience-logo {
+    transform: scale(1.5);
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+}
+
+details.experience-item[open] {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+details.experience-item[open] .experience-logo {
+    transform: scale(1);
+    transition: transform 0.3s ease;
 }
 
 .experience-meta {
@@ -300,9 +340,12 @@ h1, h2, h3, .brand {
         justify-content: flex-start;
     }
 
-    .experience-item {
+    details.experience-item[open] {
         grid-template-columns: 1fr;
         gap: 1rem;
+    }
+
+    details.experience-item {
         padding: 1.5rem;
     }
 
