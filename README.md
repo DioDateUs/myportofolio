@@ -53,6 +53,7 @@ Setelah itu, buka browser dan akses `http://127.0.0.1:8000`.
 
 1. Week 1: Setup Django dan template awal portofolio
 2. Week 2: Penambahan section baru (pengalaman)
+3. Week 3: Perubahan menjadi MVT dan penambahan section baru (interests)
 
 ## Tugas
 
