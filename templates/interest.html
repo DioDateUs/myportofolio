@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest - {{ name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
+            <nav>
+                <a href="{% url 'main:show_main' %}">Profile</a>
+                <a href="{% url 'main:show_experience' %}">Experience</a>
+                <a href="{% url 'main:show_interest' %}">Interest</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="interest" id="minat">
+            <div class="container">
+                <div class="section-header">
+                    <p class="section-kicker">Eksplorasi & Fokus</p>
+                    <h2 class="section-title">Interest</h2>
+                </div>
+
+                <div class="interest-grid">
+                    {% for interest in interest_list %}
+                    <div class="interest-card">
+                        <div class="interest-icon">
+                            {% if interest.image %}
+                            <img src="{{ interest.image }}" alt="{{ interest.title }} icon">
+                            {% else %}
+                            <div class="interest-placeholder"></div>
+                            {% endif %}
+                        </div>
+                        <div class="interest-content">
+                            <h3 class="interest-title">{{ interest.title }}</h3>
+                            <p class="interest-skill">{{ interest.skill }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-state" style="text-align: center; color: #6b7280; padding: 2rem 0; grid-column: 1 / -1;">
+                        Belum ada interest yang ditambahkan.
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+        </div>
+    </footer>
+</body>
+</html>
