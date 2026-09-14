@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from main.models import Experience
+from main.models import Experience, Interest
 
 
 class MainTest(TestCase):
@@ -12,6 +12,10 @@ class MainTest(TestCase):
             organization="Universitas Indonesia",
             description="Membantu mahasiswa memahami pengembangan web.",
             category="part-time",
+        )
+        self.interest = Interest.objects.create(
+            title="Backend Development",
+            skill="Django, SpringBoot, Node.js",
         )
 
     def test_main_url_is_accessible(self):
@@ -57,3 +61,22 @@ class MainTest(TestCase):
 
         self.assertFalse(self.experience.is_ongoing)
         self.assertNotContains(response, "Sekarang")
+
+    def test_interest_model(self):
+        self.assertEqual(str(self.interest), "Backend Development")
+        self.assertEqual(self.interest.skill, "Django, SpringBoot, Node.js")
+
+    def test_interest_page(self):
+        response = self.client.get(reverse("main:show_interest"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "interest.html")
+        self.assertContains(response, self.interest.title)
+        self.assertContains(response, self.interest.skill)
+        self.assertContains(response, f'href="{reverse("main:show_main")}"')
+
+    def test_empty_interest_page(self):
+        Interest.objects.all().delete()
+        response = self.client.get(reverse("main:show_interest"))
+
+        self.assertContains(response, "Belum ada interest yang ditambahkan.")
