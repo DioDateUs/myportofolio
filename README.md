@@ -54,6 +54,8 @@ Setelah itu, buka browser dan akses `http://127.0.0.1:8000`.
 1. Week 1: Setup Django dan template awal portofolio
 2. Week 2: Penambahan section baru (pengalaman)
 
+## Tugas
+
 ### Tugas 1
 
 1. Ya, karena daripada menggunakan elemen &lt;div> di semua tempat, elemen semantik bisa memisahkan fungsi blok kode nya seperti &lt;section id="pengalaman"> yang langsung menjelaskan bahwa itu adalah untuk section pengalaman sehingga dapat lebih mudah di akses jika ada yang ingin diubah di bagian pengalaman
@@ -63,3 +65,20 @@ Setelah itu, buka browser dan akses `http://127.0.0.1:8000`.
 3. Karena semua data nya masih hardcoded, jadinya kebayang kalo udah ditambahin section lain, pasti panjang banget, kalo ada yang mau dibenerin juga masih harus masukin di source code nya langsung (makanya belom nambahin section lain hehe), karena ga ada JavaScript juga, belom bisa bikin filter atau semacamnya,  Mungkin fungsi yang pengen ditambahin sesimpel dashboard kali ya, atau mungkin bikin CMS simple biar bisa nambahin atau edit data nya dari browser biar ga perlu nyentuh kode html nya lagi
 
 Dalam pengerjaan nya, saya tidak menggunakan AI sama sekali, seperti pada penambahan section pengalaman, saya menggunakan referensi berdasarkan web yang pernah saya buat ketika awal belajar saya membuat web, ketika ada kesalahan, saya mengecek kembali apakah ada perbedaan yang saya lakukan sekarang dan apa yang ada pada kode saya dahulu. Saya juga masih melihat web seperti W3schools, geeksforgeeks, serta web lainnya sebagai panduan, seperti untuk melihat panduan penggunaan open pada html
+
+### Tugas 2
+
+1. Alur proses MVT (Model-View-Template) pada Django saat pengguna membuka halaman portofolio baru:
+- Browser pengguna mengirimkan HTTP GET Request ke server.
+- urls.py Proyek (portofolio/urls.py) membaca domain utama dan mengarahkan rute ke modul aplikasi yang sesuai.
+- urls.py Aplikasi (main/urls.py) mencocokkan endpoint (misal: 'project/' atau 'experience/') lalu memanggil fungsi View yang tepat.
+- View (views.py) menerima request dan meminta data yang dibutuhkan ke Model (models.py).
+- Model berkomunikasi dengan Database  untuk mengambil data lalu mengembalikan objek/query ke View.
+- View mengemas data tersebut ke dalam dictionary context dan memanggil file Template yang dituju.
+- Django Template Engine merender data dari context ke dalam kerangka HTML (templates/project.html).
+- View membungkus hasil akhir render tersebut menjadi HTTP Response utuh (HTML, CSS, dan Gambar).
+- Browser pengguna membaca kode HTML tersebut dan merender tampilan visual halaman di layar.
+
+2. Dengan tidak melakukan hard-code pada data, kita bisa mengubah, menambahkan, atau menghapus data melalui panel admin, jadi bahkan tidak perlu membuka file kode sama sekali. Data yang digunakan di satu model, dapat digunakan kembali di model lainnya dengan menyesuaikan isi yang ditampilkan. Jika ada yang ingin diubah pada tampilan, tidak perlu takut ada data yang hilang karena data ada pada tempat yang berbeda, begitu juga sebaliknya jika ingin mengubah data, tidak perlu takut tampilan berubah
+
+3. Makemigration membaca setiap perubahan yang dilakukan pada models.py, setelah terdeteksi, akan tercatat di dalam folder migrations. migrate digunakan untuk menerapkan instruksi yang ada pada folder migrations ke dalam database dengan menerjemahkan file blueprint tadi menjadi SQL
