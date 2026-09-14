@@ -9,6 +9,7 @@ class MainTest(TestCase):
     def setUp(self):
         self.experience = Experience.objects.create(
             title="Asisten Dosen PBP",
+            organization="Universitas Indonesia",
             description="Membantu mahasiswa memahami pengembangan web.",
             category="part-time",
         )
@@ -37,9 +38,10 @@ class MainTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "experience.html")
         self.assertContains(response, self.experience.title)
+        self.assertContains(response, self.experience.organization)
         self.assertContains(response, self.experience.description)
         self.assertContains(response, "Part-Time")
-        self.assertContains(response, "Sedang berlangsung")
+        self.assertContains(response, "Sekarang")
         self.assertContains(response, f'href="{reverse("main:show_main")}"')
 
     def test_empty_experience_page(self):
@@ -54,5 +56,4 @@ class MainTest(TestCase):
         response = self.client.get(reverse("main:show_experience"))
 
         self.assertFalse(self.experience.is_ongoing)
-        self.assertContains(response, "Selesai")
-        self.assertNotContains(response, "Sedang berlangsung")
+        self.assertNotContains(response, "Sekarang")
