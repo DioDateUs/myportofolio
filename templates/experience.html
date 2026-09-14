@@ -21,30 +21,39 @@
     </header>
 
     <main>
-        <section class="experience-section" id="experience">
+        <section class="experience" id="pengalaman">
             <div class="container">
-                <p class="section-kicker">Perjalanan saya sejauh ini</p>
-                <h1>Experience</h1>
+                <div class="section-header">
+                    <p class="section-kicker">Perjalanan & Aktivitas</p>
+                    <h2 class="section-title">Pengalaman</h2>
+                </div>
 
-                <div class="experience-grid">
+                <div class="experience-list" id="experience-container">
                     {% for experience in experience_list %}
-                        <article class="experience-card">
-                            <span class="experience-category">
-                                {{ experience.get_category_display }}
-                            </span>
-                            <h2>{{ experience.title }}</h2>
-                            <p class="experience-description">
+                    <details class="experience-item" id="exp-{{ experience.id }}">
+                        <summary class="experience-meta">
+                            <div class="experience-logo">
+                                {% if experience.photo %}
+                                <img src="{{ experience.photo }}" alt="Logo {{ experience.organization }}" class="org-logo">
+                                {% else %}
+                                <div class="org-logo-placeholder" style="width: 48px; height: 48px; background: #eee; border-radius: 8px;"></div>
+                                {% endif %}
+                            </div>
+                            <p class="experience-org">{{ experience.organization|default:"Organisasi" }}</p>
+                        </summary>
+                        <div class="experience-body">
+                            <h3 class="experience-role">{{ experience.title }}</h3>
+                            <time class="experience-period">{{ experience.started_at|date:"Y" }} &ndash; {% if experience.is_ongoing %}Sekarang{% else %}{{ experience.ended_at|date:"Y" }}{% endif %}</time>
+                            <p class="experience-desc">
                                 {{ experience.description }}
                             </p>
-
-                            {% if experience.is_ongoing %}
-                                <p class="experience-status">Sedang berlangsung</p>
-                            {% else %}
-                                <p class="experience-status">Selesai</p>
-                            {% endif %}
-                        </article>
+                            <span class="experience-category" style="display:inline-block; margin-top: 12px; font-size: 0.875rem; background: #f3f4f6; padding: 4px 12px; border-radius: 9999px; color: #374151;">
+                                {{ experience.get_category_display }}
+                            </span>
+                        </div>
+                    </details>
                     {% empty %}
-                        <p class="empty-state">
+                        <p class="empty-state" style="text-align: center; color: #6b7280; padding: 2rem 0;">
                             Belum ada pengalaman yang ditambahkan.
                         </p>
                     {% endfor %}
