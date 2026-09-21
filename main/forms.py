@@ -1,5 +1,7 @@
 from django.forms import DateInput, ModelForm, Select, TextInput, Textarea, URLInput
-from main.models import Experience, Project
+
+from main.models import Experience, Interest, Project
+
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -48,6 +50,7 @@ class ProjectForm(ModelForm):
             ),
         }
 
+
 class ExperienceForm(ModelForm):
     class Meta:
         model = Experience
@@ -95,6 +98,40 @@ class ExperienceForm(ModelForm):
             "ended_at": DateInput(
                 attrs={
                     "type": "date",
+                }
+            ),
+        }
+
+
+class InterestForm(ModelForm):
+    class Meta:
+        model = Interest
+        fields = [
+            "title",
+            "skill",
+            "image",
+        ]
+        labels = {
+            "title": "Bidang / Topik Minat",
+            "skill": "Teknologi / Skill Terkait",
+            "image": "URL Gambar / Icon",
+        }
+        widgets = {
+            "title": TextInput(
+                attrs={
+                    "placeholder": "Contoh: Backend Development",
+                    "maxlength": 255,
+                }
+            ),
+            "skill": TextInput(
+                attrs={
+                    "placeholder": "Contoh: Django, Spring Boot, PostgreSQL",
+                    "maxlength": 255,
+                }
+            ),
+            "image": URLInput(
+                attrs={
+                    "placeholder": "https://example.com/icon.png",
                 }
             ),
         }
