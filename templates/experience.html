@@ -8,9 +8,16 @@
     <main>
         <section class="experience" id="pengalaman">
             <div class="container">
-                <div class="section-header">
-                    <p class="section-kicker">Perjalanan & Aktivitas</p>
-                    <h2 class="section-title">Pengalaman</h2>
+                <div class="project-header">
+                    <div>
+                        <p class="section-kicker">Perjalanan & Aktivitas</p>
+                        <h1 class="section-title">Pengalaman</h1>
+                    </div>
+                    <a href="{% url 'main:create_experience' %}"
+                       class="button project-add-button">
+                        <span aria-hidden="true">+</span>
+                        Tambah Pengalaman
+                    </a>
                 </div>
 
                 <div class="experience-list" id="experience-container">
@@ -35,6 +42,10 @@
                             <span class="experience-category" style="display:inline-block; margin-top: 12px; font-size: 0.875rem; background: #f3f4f6; padding: 4px 12px; border-radius: 9999px; color: #374151;">
                                 {{ experience.get_category_display }}
                             </span>
+                            <div class="project-actions" style="margin-top: 1rem;">
+                                <a href="{% url 'main:edit_experience' experience.id %}" class="button">Edit Pengalaman</a>
+                                {% include "components/experience_delete_modal.html" with experience=experience %}
+                            </div>
                         </div>
                     </details>
                     {% empty %}
