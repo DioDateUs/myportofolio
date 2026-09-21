@@ -8,24 +8,37 @@
     <main>
         <section class="interest" id="minat">
             <div class="container">
-                <div class="section-header">
-                    <p class="section-kicker">Eksplorasi & Fokus</p>
-                    <h2 class="section-title">Interest</h2>
+                <div class="project-header">
+                    <div class="section-header">
+                        <p class="section-kicker">Eksplorasi & Fokus</p>
+                        <h2 class="section-title">Interest</h2>
+                    </div>
+                    <a href="{% url 'main:create_interest' %}" class="button project-add-button">
+                        <span>+</span>
+                        Tambah Minat
+                    </a>
                 </div>
 
                 <div class="interest-grid">
                     {% for interest in interest_list %}
-                    <div class="interest-card">
-                        <div class="interest-icon">
-                            {% if interest.image %}
-                            <img src="{{ interest.image }}" alt="{{ interest.title }} icon">
-                            {% else %}
-                            <div class="interest-placeholder"></div>
-                            {% endif %}
+                    <div class="interest-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="display: flex; gap: 1.25rem; align-items: flex-start; width: 100%;">
+                            <div class="interest-icon">
+                                {% if interest.image %}
+                                <img src="{{ interest.image }}" alt="{{ interest.title }} icon">
+                                {% else %}
+                                <div class="interest-placeholder"></div>
+                                {% endif %}
+                            </div>
+                            <div class="interest-content">
+                                <h3 class="interest-title">{{ interest.title }}</h3>
+                                <p class="interest-skill">{{ interest.skill }}</p>
+                            </div>
                         </div>
-                        <div class="interest-content">
-                            <h3 class="interest-title">{{ interest.title }}</h3>
-                            <p class="interest-skill">{{ interest.skill }}</p>
+
+                        <div class="project-actions" style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <a href="{% url 'main:edit_interest' interest.id %}" class="button">Edit</a>
+                            {% include "components/interest_delete_modal.html" with interest=interest %}
                         </div>
                     </div>
                     {% empty %}
