@@ -95,6 +95,10 @@ def get_experiences_json(request):
     return HttpResponse(experiences_json, content_type="application/json")
 
 
+def is_editor_user(user):
+    return user.is_authenticated and user.groups.filter(name='Editor').exists()
+
+
 def show_interest(request):
     json_response = get_interests_json(request)
     interests = serializers.deserialize(
@@ -103,9 +107,13 @@ def show_interest(request):
     )
     interests = [item.object for item in interests]
 
+    is_editor = is_editor_user(request.user)
+    can_edit = request.user.is_superuser or is_editor
     context = {
         "name": "Deodatus Kevin Sihaloho",
         "interest_list": interests,
+        "is_editor": is_editor,
+        "can_edit": can_edit,
     }
     return render(request, "interest.html", context)
 
@@ -128,7 +136,7 @@ def create_interest(request):
 
 @login_required(login_url="/login/")
 def edit_interest(request, interest_id):
-    if not request.user.is_superuser:
+    if not (request.user.is_superuser or is_editor_user(request.user)):
         raise PermissionDenied
     
     interest = get_object_or_404(Interest, pk=interest_id)
@@ -271,3 +279,13 @@ def toggle_star(request, project_id):
             project.starred_by.add(request.user)
 
     return redirect("main:show_projects")
+
+@login_required(login_url="/login/")
+def toggle_star_interest(request, interest_id):
+    interest = get_object_or_404(Interest, pk=interest_id)
+    if request.method == "POST":
+        if request.user in interest.starred_by.all():
+            interest.starred_by.remove(request.user)
+        else:
+            interest.starred_by.add(request.user)
+    return redirect("main:show_interest")
