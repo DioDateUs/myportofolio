@@ -2,6 +2,7 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 
+
 class Experience(models.Model):
     EXPERIENCE_CHOICES = [
         ('internship', 'Internship'),
@@ -20,6 +21,7 @@ class Experience(models.Model):
     photo = models.URLField(blank=True, null=True, help_text="Masukkan link URL foto/logo di sini")
     started_at = models.DateTimeField(auto_now_add=True)
     ended_at = models.DateTimeField(blank=True, null=True)
+
     def __str__(self):
         return self.title
     
@@ -27,14 +29,19 @@ class Experience(models.Model):
     def is_ongoing(self):
         return self.ended_at is None
 
+
 class Interest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255, help_text="Contoh: Backend Development")
     skill = models.CharField(max_length=255, help_text="Contoh: Django, SpringBoot, Node.js")
     image = models.URLField(blank=True, null=True, help_text="Masukkan link URL icon/gambar interest")
+    starred_by = models.ManyToManyField(
+        User, related_name="starred_interests", blank=True
+    )
     
     def __str__(self):
         return self.title
+
 
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

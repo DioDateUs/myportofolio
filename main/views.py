@@ -160,7 +160,7 @@ def delete_interest(request, interest_id):
 
 def get_interests_json(request):
     interests = Interest.objects.all()
-    interests_json = serializers.serialize("json", interests)
+    interests_json = serializers.serialize("json", interests, use_natural_foreign_keys=True)
     return HttpResponse(interests_json, content_type="application/json")
 
 
