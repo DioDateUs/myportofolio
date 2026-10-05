@@ -102,22 +102,18 @@ def is_editor_user(user):
 
 
 def show_interest(request):
-    json_response = get_interests_json(request)
-    interests = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    interests = [item.object for item in interests]
-
     is_editor = is_editor_user(request.user)
     can_edit = request.user.is_superuser or is_editor
+    title_query = request.GET.get('title', '').strip()
+
     context = {
-        "name": "Deodatus Kevin Sihaloho",
-        "interest_list": interests,
-        "is_editor": is_editor,
-        "can_edit": can_edit,
+        'name': 'Deodatus Kevin Sihaloho',
+        'is_editor': is_editor,
+        'can_edit': can_edit,
+        'title_query': title_query,
+        'form': InterestForm(),
     }
-    return render(request, "interest.html", context)
+    return render(request, 'interest.html', context)
 
 @login_required(login_url="/login/")
 def create_interest(request):
@@ -169,9 +165,31 @@ def delete_interest(request, interest_id):
 
 
 def get_interests_json(request):
-    interests = Interest.objects.all()
-    interests_json = serializers.serialize("json", interests, use_natural_foreign_keys=True)
-    return HttpResponse(interests_json, content_type="application/json")
+    title_query = request.GET.get('title', '').strip()
+    interests = Interest.objects.prefetch_related('starred_by').all()
+
+    if title_query:
+        interests = interests.filter(title__icontains=title_query)
+
+    data = []
+    for interest in interests:
+        starred_users = interest.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ', '.join([u.username for u in starred_users])
+
+        data.append({
+            'pk': str(interest.id),
+            'fields': {
+                'title': interest.title,
+                'skill': interest.skill,
+                'image': interest.image,
+                'star_count': starred_users.count(),
+                'is_starred': is_starred,
+                'starred_by_names': starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 
 def show_projects(request):
