@@ -56,6 +56,7 @@ Setelah itu, buka browser dan akses `http://127.0.0.1:8000`.
 3. Week 3: Perubahan menjadi MVT dan penambahan section baru (interests)
 4. Week 4: Penggunaan modelform dan JSON
 5. Week 5: Penerapan role editor dan register/login, penambahan toggle_star
+6. Week 6: Penerapan pencarian menggunakan AJAX
 
 ## Tugas
 
@@ -93,3 +94,13 @@ Dalam pengerjaan nya, saya tidak menggunakan AI sama sekali, seperti pada penamb
 2. Karena JSON hanya perlu menggunakan sintaks pasangan key-value sederhana seperti {"title": "Backend"}, sedangkan XML menggunakan tag pembuka dan penutup seperti <interest><title>Backend</title></interest>, JSON juga langsung dibaca karena JSON adalah bagian dari standar sintaks JS, sedangkan XML membutuhkan parser dokumen XML. Struktur data dengan JSON juga lebih bersih dan mudah dibaca dan lebih readable.
 
 3. Alur pengembalian data JSON adalah mukai dari HTTP req diterima, ORM dieksekusi oleh View untuk mengambil data dari database.  Data yang sudah diambil melewati modul serializer django yang mengubah objek model Python menjadi string berformat JSON. Strin JSON tersebut dibungkus ke dalam objek JsonResponse. Server mengembalikan respon ke client dan kemudian diproses oleh frontend atau client API. Proses serialization diperlukan karena objek model django tidak bisa diterjemahkan langsung karena memiliki memori, metode, dan tipe data khusus seperti UUIDField dan DateTimeField.
+
+### Tugas 5
+
+1. Debouncing adalah teknik yang menunda eksekusi sebuah fungsi dengan jeda waktu ertentu sehingga mencegah request ke server pada setiap ketikan, misal ingin mengetik "ikan", tanpa debouncing, jika menggunakan fituer pencarian berbasis AJAX, maka setiap i, ik, ika, ikan, akan menjalankan request berturut turut
+
+2. Fungsi await digunakan untuk menghentikan sementara eksekusi kode di dalam fungsi asynchronous hingga sebuah Promise selesai (resolved atau rejected) dan mengembalikan nilainya. Karena fetch() adalah operasi asynchronous yang mengembalikan objek Promise, kita memerlukan await agar program menunggu proses penarikan data dari server selesai, lalu mengembalikan objek Response yang utuh.
+
+Jika tidak menggunakan await, eksekusi kode akan langsung berlanjut ke baris berikutnya tanpa menunggu respon server. Variabel yang menampung pemanggilan fetch() hanya akan berisi objek Promise dengan status pending (belum selesai), bukan data yang kita inginkan. Akibatnya, saat baris kode selanjutnya mencoba membaca atau memanipulasi data tersebut (misalnya dengan metode .json()), akan terjadi error karena datanya secara aktual belum tersedia di memori browser.
+
+3. XSS (Cross-Site Scripting) adalah celah keamanan di mana penyerang berhasil menyuntikkan skrip berbahaya (biasanya JavaScript) ke dalam halaman web yang sah. Saat pengguna lain membuka halaman tersebut, browser mereka akan mengeksekusi skrip berbahaya tersebut, yang dapat berujung pada pencurian cookies/session token atau manipulasi halaman (phishing).Template Django memiliki perlindungan auto-escaping secara bawaan (default). Jika ada variabel berisi <script>alert(1)</script>, Django otomatis mengubahnya menjadi entitas HTML aman (&lt;script&gt;...) sebelum dikirim ke browser. Browser hanya akan membacanya sebagai teks biasa, bukan kode yang bisa dieksekusi. Sedangkan, AJAX/JavaScript umumnya menerima data mentah (misalnya format JSON) tanpa melalui filter auto-escaping dari sisi server. Saat developer menggunakan JavaScript untuk memanipulasi DOM dan memasukkan data tersebut menggunakan properti seperti innerHTML, tidak ada perlindungan bawaan. Jika JSON tersebut mengandung tag <script> atau atribut berbahaya (seperti <img src="x" onerror="alert(1)">), browser akan langsung mengeksekusinya. Untuk mengamankannya, developer harus secara manual menggunakan fungsi sanitasi (seperti DOMPurify) atau menggunakan properti yang aman dari eksekusi HTML, seperti textContent atau innerText. 
