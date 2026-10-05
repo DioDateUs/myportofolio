@@ -2,6 +2,7 @@ from django.urls import path
 from main.views import (
     create_experience,
     create_interest,
+    create_interest_ajax,
     create_project,
     create_project_ajax,
     delete_experience,
@@ -34,6 +35,7 @@ urlpatterns = [
     path("api/experience/", get_experiences_json, name="get_experiences_json"),
     path("interest/", show_interest, name="show_interest"),
     path("interest/add/", create_interest, name="create_interest"),
+    path("interest/add-ajax/", create_interest_ajax, name="create_interest_ajax"),
     path("interest/<uuid:interest_id>/edit/", edit_interest, name="edit_interest"),
     path("interest/<uuid:interest_id>/delete/", delete_interest, name="delete_interest"),
     path("api/interest/", get_interests_json, name="get_interests_json"),

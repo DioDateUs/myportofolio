@@ -338,3 +338,21 @@ def create_project_ajax(request):
         )
 
     return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+@require_POST
+def create_interest_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {'message': 'Hanya pemilik portofolio yang dapat menambahkan minat.'},
+            status=403,
+        )
+
+    form = InterestForm(request.POST)
+    if form.is_valid():
+        interest = form.save()
+        return JsonResponse(
+            {'message': 'Minat berhasil ditambahkan.', 'pk': str(interest.id)},
+            status=201,
+        )
+
+    return JsonResponse({'errors': form.errors.get_json_data()}, status=400)
