@@ -150,3 +150,18 @@ class InterestForm(ModelForm):
                 }
             ),
         }
+
+    def clean_title(self):
+        title = strip_tags(self.cleaned_data['title']).strip()
+        if not title:
+            raise ValidationError('Bidang / Topik minat tidak boleh hanya berisi tag HTML.')
+        return title
+
+    def clean_skill(self):
+        skill = strip_tags(self.cleaned_data['skill']).strip()
+        if not skill:
+            raise ValidationError('Teknologi / skill terkait tidak boleh hanya berisi tag HTML.')
+        return skill
+
+    def clean_image(self):
+        return strip_tags(self.cleaned_data['image']).strip()
