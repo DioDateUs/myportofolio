@@ -1,0 +1,44 @@
+<div id="add-interest-modal"
+     class="project-modal"
+     popover="auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="modal-title">
+    <button type="button"
+            class="project-modal__backdrop"
+            popovertarget="add-interest-modal"
+            popovertargetaction="hide"
+            aria-label="Tutup form modal"></button>
+    <div class="project-modal__content">
+        <header class="project-modal__header">
+            <div>
+                <p class="section-kicker">Form Minat</p>
+                <h2 id="modal-title" class="project-modal__title">Tambah Minat Baru</h2>
+            </div>
+            <button type="button"
+                    class="project-modal__close"
+                    popovertarget="add-interest-modal"
+                    popovertargetaction="hide"
+                    aria-label="Tutup modal">×</button>
+        </header>
+
+        <form id="interest-form" class="project-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<p class="form-help">{{ field.help_text }}</p>{% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="project-modal__actions">
+                <button type="button"
+                        class="button button-secondary"
+                        popovertarget="add-interest-modal"
+                        popovertargetaction="hide">Batal</button>
+                <button type="submit" class="button">Simpan Minat</button>
+            </div>
+        </form>
+    </div>
+</div>
