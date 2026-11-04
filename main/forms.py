@@ -1,8 +1,18 @@
+import re
+
 from django.core.exceptions import ValidationError
-from django.utils.html import strip_tags
+from django.utils.html import strip_tags as _strip_tags
 from django.forms import DateInput, ModelForm, Select, TextInput, Textarea, URLInput
 
 from main.models import Experience, Interest, Project
+
+
+_DANGEROUS_BLOCKS = re.compile(r"<(script|style)\b[^>]*>.*?</\1\s*>", re.IGNORECASE | re.DOTALL)
+
+
+def strip_tags(value):
+    """Buang tag HTML, termasuk isi tag <script> dan <style>."""
+    return _strip_tags(_DANGEROUS_BLOCKS.sub("", value or ""))
 
 
 class ProjectForm(ModelForm):
@@ -75,6 +85,7 @@ class ExperienceForm(ModelForm):
             "category",
             "description",
             "photo",
+            "started_at",
             "ended_at",
         ]
         labels = {
@@ -83,6 +94,7 @@ class ExperienceForm(ModelForm):
             "category": "Kategori Pengalaman",
             "description": "Deskripsi Pekerjaan / Pengalaman",
             "photo": "URL Foto / Logo Organisasi",
+            "started_at": "Tanggal Mulai",
             "ended_at": "Tanggal Selesai (Kosongkan jika masih berlangsung)",
         }
         widgets = {
@@ -110,10 +122,17 @@ class ExperienceForm(ModelForm):
                     "placeholder": "https://example.com/logo.png",
                 }
             ),
-            "ended_at": DateInput(
+            "started_at": DateInput(
+                format="%Y-%m-%d",
                 attrs={
                     "type": "date",
-                }
+                },
+            ),
+            "ended_at": DateInput(
+                format="%Y-%m-%d",
+                attrs={
+                    "type": "date",
+                },
             ),
         }
 

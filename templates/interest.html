@@ -60,6 +60,7 @@
     <script>
     const BASE_INTERESTS_ENDPOINT = "{% url 'main:get_interests_json' %}";
     const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
+    const CAN_EDIT = "{{ can_edit|yesno:'true,false' }}" === "true";
     let interestsAbortController;
 
     const loadingState = document.getElementById('loading');
@@ -104,7 +105,7 @@
         const deleteUrl = "{% url 'main:delete_interest' '00000000-0000-0000-0000-000000000000' %}"
             .replace('00000000-0000-0000-0000-000000000000', interestId);
 
-        const starUrl = "{% url 'main:toggle_interest_star' '00000000-0000-0000-0000-000000000000' %}"
+        const starUrl = "{% url 'main:toggle_star_interest' '00000000-0000-0000-0000-000000000000' %}"
             .replace('00000000-0000-0000-0000-000000000000', interestId);
 
         const isStarredClass = interest.is_starred ? " is-starred" : "";
@@ -113,7 +114,7 @@
             ? `Dibintangi oleh ${escapeHtml(interest.starred_by_names)}`
             : "Jadilah yang pertama memberi star";
 
-        const editHtml = IS_SUPERUSER
+        const editHtml = CAN_EDIT
             ? `<a href="${editUrl}" class="button">Edit</a>`
             : '';
 
