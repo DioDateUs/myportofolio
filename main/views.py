@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib import messages
 from django.core import serializers
 from django.http import HttpResponse
@@ -101,6 +102,7 @@ def is_editor_user(user):
     return user.is_authenticated and user.groups.filter(name='Editor').exists()
 
 
+@ensure_csrf_cookie
 def show_interest(request):
     is_editor = is_editor_user(request.user)
     can_edit = request.user.is_superuser or is_editor
