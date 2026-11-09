@@ -1,0 +1,42 @@
+<div id="edit-interest-modal"
+     class="project-form-modal"
+     popover="auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="edit-interest-modal-title">
+    <button type="button"
+            class="project-form-modal__backdrop"
+            popovertarget="edit-interest-modal"
+            popovertargetaction="hide"
+            aria-label="Tutup form edit minat"></button>
+    <div class="project-form-modal__content">
+        <button type="button"
+                class="project-form-modal__close"
+                popovertarget="edit-interest-modal"
+                popovertargetaction="hide"
+                aria-label="Tutup form edit minat">×</button>
+        <h2 id="edit-interest-modal-title">Edit Minat</h2>
+        <form id="interest-edit-form" class="project-form">
+            <input type="hidden" name="id" id="edit-interest-id">
+            <div class="form-group">
+                <label for="edit-interest-title">Bidang / Topik Minat</label>
+                <input type="text" name="title" id="edit-interest-title" maxlength="255" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-interest-skill">Teknologi / Skill Terkait</label>
+                <input type="text" name="skill" id="edit-interest-skill" maxlength="255" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-interest-image">URL Gambar / Icon</label>
+                <input type="url" name="image" id="edit-interest-image" maxlength="200">
+            </div>
+            <div class="project-form-modal__actions">
+                <button type="button"
+                        class="button button-secondary"
+                        popovertarget="edit-interest-modal"
+                        popovertargetaction="hide">Batal</button>
+                <button type="submit" class="button">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
